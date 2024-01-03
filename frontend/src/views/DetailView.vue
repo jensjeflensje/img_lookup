@@ -20,7 +20,7 @@
             <MetadataWidget @no-place-data="reorderNoPlaceData" :asset-id="asset.id"/>
           </template>
         </Card>
-        <div>
+        <div class="inspections-inner-container">
           <Card class="inspection-box inner-box">
             <template #title>Place</template>
             <template #content>
@@ -152,6 +152,13 @@ waitForUpload();
     justify-content: center;
     align-items: stretch;
     gap: 24px;
+  }
+
+  .inspections-inner-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 740px;
+    width: 100%;
   }
 
   .inspection-box {
