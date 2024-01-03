@@ -14,18 +14,26 @@
         You can share this page's link with others.
       </p>
       <div v-if="!uploading" class="inspections-container">
-        <Card class="inspection-box">
+        <Card class="inspection-box first-box">
           <template #title>Metadata</template>
           <template #content>
             <MetadataWidget @no-place-data="reorderNoPlaceData" :asset-id="asset.id"/>
           </template>
         </Card>
-        <Card class="inspection-box">
-          <template #title>Place</template>
-          <template #content>
-            <PlaceWidget :asset-id="asset.id"/>
-          </template>
-        </Card>
+        <div>
+          <Card class="inspection-box inner-box">
+            <template #title>Place</template>
+            <template #content>
+              <PlaceWidget :asset-id="asset.id"/>
+            </template>
+          </Card>
+          <Card class="inspection-box inner-box">
+            <template #title>Properties</template>
+            <template #content>
+              <PropertiesWidget :asset-id="asset.id"/>
+            </template>
+          </Card>
+        </div>
         <Card class="inspection-box bigger-box" :style="{order: visionOrder}">
           <template #title>Vision</template>
           <template #content>
@@ -47,6 +55,7 @@ import MetadataWidget from "@/components/inspections/MetadataWidget.vue";
 import Card from 'primevue/card';
 import PlaceWidget from "@/components/inspections/PlaceWidget.vue";
 import VisionWidget from "@/components/inspections/VisionWidget.vue";
+import PropertiesWidget from "@/components/inspections/PropertiesWidget.vue";
 
 const route = useRoute()
 const store = useAppStore();
@@ -147,6 +156,7 @@ waitForUpload();
 
   .inspection-box {
     max-width: 740px;
+    max-height: 626px;
     width: 100%;
     order: 5;
 
@@ -157,6 +167,14 @@ waitForUpload();
     backdrop-filter: blur(6.4px);
     -webkit-backdrop-filter: blur(6.4px);
     border: 1px solid rgba(172, 172, 172, 0.35);
+  }
+
+  .inner-box {
+    margin-bottom: 24px;
+  }
+
+  .first-box {
+    order: 0;
   }
 
   .bigger-box {

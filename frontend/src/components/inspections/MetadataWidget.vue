@@ -14,11 +14,7 @@
     </div>
     <i v-if="data.cleaned.device" class="header-icon pi pi-camera"></i> {{ data.cleaned.device }}
     <div class="detail-container">
-      <a href="#" @click.prevent="showExifDetail = !showExifDetail">
-        <span v-if="showExifDetail">Close all tags</span>
-        <span v-else>Open all tags</span>
-      </a>
-      <div v-show="showExifDetail" class="exif-list">
+      <div class="exif-list">
         <DataTable
             size="small"
             :value="Object.entries(data.exif).map(([key, value]) => ({key: key, value: value}))">
@@ -48,7 +44,6 @@ const props = defineProps({
 const emit = defineEmits(['no-place-data'])
 
 const loading = ref(true);
-const showExifDetail = ref(false);
 
 const data = reactive<MetadataInspection>({exif: {}, cleaned: {}});
 
@@ -76,7 +71,7 @@ fetchData();
   }
 
   .exif-list {
-    max-height: 200px;
+    max-height: 450px;
     overflow-y: scroll;
   }
 </style>
