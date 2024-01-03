@@ -21,8 +21,6 @@ services:
     image: ghcr.io/jensjeflensje/img_lookup-backend:production
     env_file:
       - .env
-    volumes:
-      - ./secrets/google-service-account.json:/app/google-service-account.json
     depends_on:
       - database
       - redis
@@ -31,6 +29,8 @@ services:
     image: ghcr.io/jensjeflensje/img_lookup-backend:production
     env_file:
       - .env
+    volumes:
+      - ./secrets/google-service-account.json:/app/google-service-account.json
     depends_on:
       - database
       - redis
