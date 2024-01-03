@@ -1,3 +1,4 @@
+from botocore.config import Config
 from django.conf import settings
 import boto3
 import botocore
@@ -15,7 +16,8 @@ def s3_get_client(external=False):
         service_name="s3",
         aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
         aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
-        endpoint_url=endpoint
+        endpoint_url=endpoint,
+        config=Config(signature_version='s3v4')
     )
 
 
