@@ -41,7 +41,7 @@
 import {extendAsset, fetchAsset} from "@/api.ts";
 import {useRoute} from "vue-router";
 import {useAppStore} from "@/store/app.ts";
-import {nextTick, reactive, ref} from "vue";
+import {reactive, ref} from "vue";
 import AssetFile from "@/types/AssetFile.ts";
 import MetadataWidget from "@/components/inspections/MetadataWidget.vue";
 import Card from 'primevue/card';
