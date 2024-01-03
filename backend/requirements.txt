@@ -1,0 +1,15 @@
+Django==5.0
+django-environ==0.11.2
+django-storages==1.14.2
+djangorestframework==3.14.0
+django-q2==1.6.1
+croniter==2.0.1
+
+boto3==1.28.27
+psycopg2-binary==2.9.7
+sentry-sdk==1.29.2
+pillow==10.1.0
+redis==5.0.1
+
+google-cloud-vision==3.5.0
+exifread==3.0.0

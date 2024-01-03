@@ -1,0 +1,95 @@
+name: Deploy
+on:
+  - push
+  - workflow_dispatch
+
+jobs:
+  backend_build:
+    runs-on: ubuntu-latest
+    container: docker:latest
+    steps:
+      - name: Install git
+        run: apk add git git-lfs
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          lfs: true
+      - name: Docker Login
+        run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
+      - name: Docker Build
+        run: |
+          cd backend/
+          docker build -f Dockerfile.prod -t ghcr.io/jensjeflensje/img_lookup-backend:${{ github.ref_name }} ./
+      - name: Docker Tag Production
+        if: contains(github.ref, 'main')
+        run: |
+          docker tag ghcr.io/jensjeflensje/img_lookup-backend:main ghcr.io/jensjeflensje/img_lookup-backend:production
+          docker push ghcr.io/jensjeflensje/img_lookup-backend:production
+      - name: Docker Push
+        run: |
+          docker push ghcr.io/jensjeflensje/img_lookup-backend:${{ github.ref_name }}
+  frontend_build:
+    runs-on: ubuntu-latest
+    container: docker:latest
+    env:
+      VITE_STRIPE_PK: ${{ vars.VITE_STRIPE_PK }}
+      VITE_APP_URL: ${{ vars.VITE_APP_URL }}
+    steps:
+      - name: Install git
+        run: apk add git git-lfs
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          lfs: true
+      - name: Docker Login
+        run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
+      - name: Docker Build
+        run: |
+          cd frontend/
+          docker build \
+            -f Dockerfile.prod \
+            --target main \
+            --build-arg VITE_STRIPE_PK \
+            --build-arg VITE_APP_URL \
+            -t ghcr.io/jensjeflensje/img_lookup-frontend:${{ github.ref_name }} \
+            ./
+      - name: Docker Tag Production
+        if: contains(github.ref, 'main')
+        run: |
+          docker tag ghcr.io/jensjeflensje/img_lookup-frontend:main ghcr.io/jensjeflensje/img_lookup-frontend:production
+          docker push ghcr.io/jensjeflensje/img_lookup-frontend:production
+      - name: Docker Push
+        run: |
+          docker push ghcr.io/jensjeflensje/img_lookup-frontend:${{ github.ref_name }}
+  deploy:
+    runs-on: ubuntu-latest
+    container: docker:latest
+    needs:
+      - backend_build
+      - frontend_build
+    steps:
+      - name: Install git
+        run: apk add git git-lfs
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          lfs: true
+      - name: Prepare credentials
+        run: |
+          mkdir -p ~/.ssh/
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 400 ~/.ssh/id_ed25519
+      - name: Copy configs
+        run: |
+          scp -o 'StrictHostKeyChecking no' -i ~/.ssh/id_ed25519 -r ./ci-cd/* root@${{ vars.SERVER_ADDRESS }}:/root/img_lookup/
+      - name: Docker compose up
+        run: |
+          ssh -o 'StrictHostKeyChecking no' -i ~/.ssh/id_ed25519 root@${{ vars.SERVER_ADDRESS }} "
+              cd /root/img_lookup/
+              docker-compose pull
+              docker-compose up -d
+              docker-compose run backend python manage.py migrate
+          "

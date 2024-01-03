@@ -1,0 +1,41 @@
+version: "3.7"
+
+services:
+  webserver:
+    image: ghcr.io/jensjeflensje/img_lookup-frontend:production
+    volumes:
+      - ./config/nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "8083:80"
+    depends_on:
+      - backend
+  database:
+    image: postgres:15.4-alpine
+    environment:
+      POSTGRES_DB: img_lookup
+      POSTGRES_PASSWORD: img_lookup
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+  backend:
+    command: gunicorn --bind=0.0.0.0:8000 img_lookup.wsgi:application
+    image: ghcr.io/jensjeflensje/img_lookup-backend:production
+    env_file:
+      - .env
+    volumes:
+      - ./secrets/google-service-account.json:/app/google-service-account.json
+    depends_on:
+      - database
+      - redis
+  backend_worker:
+    command: python3 manage.py qcluster
+    image: ghcr.io/jensjeflensje/img_lookup-backend:production
+    env_file:
+      - .env
+    depends_on:
+      - database
+      - redis
+  redis:
+    image: redis:latest
+
+volumes:
+  postgres-data:

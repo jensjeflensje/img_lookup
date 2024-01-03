@@ -1,0 +1,7 @@
+*.pyc
+.env
+node_modules/
+*.log
+.vscode/
+dev/secrets/
+backend/google-service-account.json

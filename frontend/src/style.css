@@ -1,0 +1,45 @@
+:root {
+  color: #f1f1ff;
+  background-color: #171717;
+  min-height:100%;
+}
+
+html, body {
+  margin: 0;
+  inset: 0;
+}
+
+h1, .p-card-title {
+  font-weight: 500;
+}
+
+th, tr {
+  background: none;
+}
+
+.value-column {
+  /* make sure a long value doesn't overflow the table */
+  line-break: anywhere;
+}
+
+a {
+  color: var(--green-300);
+  text-decoration: none;
+}
+
+a.plain-link {
+  color: var(--text-color);
+}
+
+a.plain-link:hover {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+@keyframes fade-in {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
