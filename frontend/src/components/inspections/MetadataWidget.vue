@@ -71,7 +71,7 @@ fetchData();
   }
 
   .exif-list {
-    max-height: 450px;
+    max-height: 470px;
     overflow-y: scroll;
   }
 </style>

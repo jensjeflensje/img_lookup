@@ -154,7 +154,7 @@ fetchData();
 
   #src-image > img {
     max-height: 500px;
-    max-width: 500px;
+    max-width: 100%;
   }
 
   .inspection-point {

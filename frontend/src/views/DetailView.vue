@@ -145,7 +145,7 @@ waitForUpload();
 
   .inspections-container {
     margin: 0 auto;
-    max-width: 1800px;
+    max-width: 1600px;
     width: 100%;
     display: flex;
     flex-wrap: wrap;
@@ -157,13 +157,12 @@ waitForUpload();
   .inspections-inner-container {
     display: flex;
     flex-direction: column;
-    max-width: 740px;
+    max-width: 640px;
     width: 100%;
   }
 
   .inspection-box {
-    max-width: 740px;
-    max-height: 626px;
+    max-width: 640px;
     width: 100%;
     order: 5;
 
@@ -182,9 +181,10 @@ waitForUpload();
 
   .first-box {
     order: 0;
+    max-height: 640px;
   }
 
   .bigger-box {
-    max-width: 1502px;
+    max-width: 1302px;
   }
 </style>
