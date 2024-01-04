@@ -18,7 +18,7 @@
         <DataTable
             size="small"
             :value="Object.entries(data.exif).map(([key, value]) => ({key: key, value: value}))">
-          <Column field="key" header="Key"></Column>
+          <Column class="key-column" field="key" header="Key"></Column>
           <Column class="value-column" field="value" header="Value"></Column>
         </DataTable>
       </div>

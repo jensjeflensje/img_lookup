@@ -7,7 +7,7 @@
       <DataTable
           size="small"
           :value="Object.entries(data.data).map(([key, value]) => ({key: key, value: value}))">
-        <Column field="key" header="Type"></Column>
+        <Column class="key-column" field="key" header="Type"></Column>
         <Column field="value" header="Value"></Column>
       </DataTable>
     </div>

@@ -28,7 +28,6 @@ class BaseAssetDetailEndpoint(GenericAPIView):
 
     def get_object(self):
         asset = super().get_object()
-        print(asset.file_key)
         if not s3_key_exists(asset.file_key):
             raise ValidationError("There is no file associated with this asset")
         return asset
