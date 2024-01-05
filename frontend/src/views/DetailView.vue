@@ -83,8 +83,7 @@ function reorderNoPlaceData() {
 }
 
 function formatDate(value: string) {
-  const date = new Date(value);
-  return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`
+  return new Date(value).toLocaleString();
 }
 
 async function extendLifetime() {
