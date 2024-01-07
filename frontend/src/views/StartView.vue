@@ -39,9 +39,11 @@ const showPrivacyStatement = ref(false);
 async function handleFileChosen(file: File) {
   try {
     await fileChosen(file);
-  } catch (e) {
-    dropZone.value.showError(e.message);
-    console.error(e);
+  } catch (error) {
+    let message = 'Unknown Error'
+    if (error instanceof Error) message = error.message
+    dropZone.value.showError(message);
+    console.error(error);
   }
 }
 
