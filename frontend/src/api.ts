@@ -13,6 +13,7 @@ export async function createUpload(req: UploadRequest) : Promise<UploadResponse>
             'Content-Type': 'application/json',
         },
     });
+    if (res.status !== 200) throw new Error("Failed to upload image")
     return await res.json();
 }
 

@@ -33,6 +33,10 @@ import { nextTick, onMounted, onUnmounted, reactive, ref } from 'vue';
 
 const emit = defineEmits(['file-chosen', 'animation-done']);
 
+defineExpose({
+  showError,
+});
+
 const hintTexts = [
   "Drop it like it's hot",
   "Come on, give it to me",
@@ -76,6 +80,16 @@ function dragEnter() {
 function dragLeave() {
   active.value = false;
   nextTick(cursorHintMove);
+}
+
+function showError(message: string) {
+  dropErrorText.value = message;
+  active.value = true;
+  flashing.value = false;
+  setTimeout(() => {
+      dropErrorText.value = '';
+      dragLeave();
+    }, 2000);
 }
 
 function validateFileType(file: File) {
