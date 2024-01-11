@@ -5,8 +5,6 @@ from img_lookup.app.inspections.base import BaseInspection
 
 
 class MetadataInspection(BaseInspection):
-
-
     def _gps_to_degrees(self, val):
         """
         Convert GPS data to decimal degrees, from the minute-second format.

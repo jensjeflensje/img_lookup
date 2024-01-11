@@ -1,5 +1,3 @@
-
-
 from img_lookup.app.models import Asset
 
 

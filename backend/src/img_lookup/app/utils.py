@@ -1,7 +1,6 @@
 from botocore.config import Config
 from django.conf import settings
 import boto3
-import botocore
 from botocore.errorfactory import ClientError
 
 
@@ -54,6 +53,7 @@ def s3_generate_presigned_get(file_path: str):
 
     return presigned_data
 
+
 def s3_generate_presigned_put(file_path: str, content_type: str):
     s3_client = s3_get_client(external=True)
 
@@ -69,6 +69,7 @@ def s3_generate_presigned_put(file_path: str, content_type: str):
     )
 
     return presigned_data
+
 
 def get_file_extension(file_name: str):
     return file_name.split(".")[-1].lower()

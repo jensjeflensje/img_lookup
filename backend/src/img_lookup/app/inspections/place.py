@@ -4,7 +4,6 @@ from img_lookup.app.inspections.base import BaseInspection
 
 
 class PlaceInspection(BaseInspection):
-
     def run(self, data: dict):
         import requests
 

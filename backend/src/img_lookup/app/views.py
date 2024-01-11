@@ -1,11 +1,10 @@
 from django.conf import settings
 from django.http import Http404
 from django_q.tasks import async_task
-from rest_framework.exceptions import NotFound, ValidationError
+from rest_framework.exceptions import ValidationError
 
 from img_lookup.app.tasks import run_inspection
-from img_lookup.app.inspections import INSPECTIONS
-from img_lookup.app.models import Asset, AssetInspection
+from img_lookup.app.models import Asset
 from img_lookup.app.serializers import CreateAssetUploadSerializer, AssetUploadSerializer
 from img_lookup.app.utils import s3_generate_presigned_put, s3_key_exists
 from rest_framework import status
@@ -21,6 +20,7 @@ class CreateAssetUploadEndpoint(GenericAPIView):
         url = s3_generate_presigned_put(asset.file_key, asset.content_type)
 
         return Response({"url": url, "id": asset.id})
+
 
 class BaseAssetDetailEndpoint(GenericAPIView):
     queryset = Asset.objects.filter(is_available=True)
@@ -72,7 +72,6 @@ class FinalizeAssetUploadEndpoint(BaseAssetDetailEndpoint):
     
 
 class GetAssetInspectionEndpoint(GenericAPIView):
-
     lookup_field = 'inspection_type'
 
     def get_queryset(self):
@@ -81,7 +80,7 @@ class GetAssetInspectionEndpoint(GenericAPIView):
     def get(self, request, id, inspection_type):
         try:
             inspection = self.get_object()
-        except Http404: # convert 404 to 202 as it's still processing
+        except Http404:  # convert 404 to 202 as it's still processing
             return Response({"info": "Inspection in progress"}, status=status.HTTP_202_ACCEPTED)
         
         return Response(inspection.data)

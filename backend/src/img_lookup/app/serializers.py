@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 import uuid
 
 from django.conf import settings
@@ -6,6 +6,7 @@ from img_lookup.app.models import Asset
 from img_lookup.app.utils import get_file_extension, s3_generate_presigned_get
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
+
 
 class CreateAssetUploadSerializer(serializers.ModelSerializer):
     file_name = serializers.CharField()
@@ -31,7 +32,7 @@ class CreateAssetUploadSerializer(serializers.ModelSerializer):
 
 class AssetUploadSerializer(serializers.ModelSerializer):
     file_name = serializers.CharField()
-    url = serializers.SerializerMethodField() # S3 presigned url
+    url = serializers.SerializerMethodField()  # S3 presigned url
 
     def get_url(self, obj):
         return s3_generate_presigned_get(obj.file_key)

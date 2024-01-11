@@ -9,7 +9,6 @@ from img_lookup.app.inspections.base import BaseInspection
 
 
 class PropertiesInspection(BaseInspection):
-
     def run(self):
 
         with default_storage.open(self.asset.file_key) as file:

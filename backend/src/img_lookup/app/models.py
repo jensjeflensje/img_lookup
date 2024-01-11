@@ -1,5 +1,5 @@
-import uuid
 from django.db import models
+
 
 class Asset(models.Model):
     id = models.UUIDField(primary_key=True, editable=False) # will be set inside the serializer

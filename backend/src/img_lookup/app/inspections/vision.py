@@ -1,5 +1,3 @@
-import math
-
 import requests
 from django.conf import settings
 from google.cloud import vision
@@ -24,6 +22,7 @@ def analyze_image_from_uri(
     response = client.annotate_image(request=request)
 
     return response
+
 
 class VisionInspection(BaseInspection):
 
@@ -78,14 +77,6 @@ class VisionInspection(BaseInspection):
                 "name": page.page_title,
                 "url": page.url,
             })
-
-        # print("full_response", MessageToDict(response._pb))
-
-        # print("full_text", MessageToDict(response.full_text_annotation._pb))
-        # print(response.text_annotations)
-        # print(response.landmark_annotations)
-        # print(response.web_detection)
-
 
         return dict({
             "words": words,
