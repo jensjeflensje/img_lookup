@@ -79,7 +79,7 @@ const asset = reactive<AssetFile>({
  * Put vision widget on top, because there is no location data.
  */
 function reorderNoPlaceData() {
-  visionOrder.value = 1;
+  visionOrder.value = -1;
 }
 
 function formatDate(value: string) {
@@ -163,7 +163,6 @@ waitForUpload();
   .inspection-box {
     max-width: 640px;
     width: 100%;
-    order: 5;
 
     /* From https://css.glass */
     background: rgba(172, 172, 172, 0.24);
@@ -179,7 +178,6 @@ waitForUpload();
   }
 
   .first-box {
-    order: 0;
     max-height: 640px;
   }
 
