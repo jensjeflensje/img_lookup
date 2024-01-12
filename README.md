@@ -3,7 +3,7 @@ A web tool to inspect images.
 It has metadata lookups, location data lookups, image hashes,
 OCR text recognition, landmark recognition and web search.
 
-I host the site on https://osint.onlyjens.nl,
+I host the site on https://butwhe.re,
 on which everyone can access it.
 
 ## About the application
