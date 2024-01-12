@@ -5,6 +5,14 @@ import AssetResponse from "@/types/AssetResponse.ts";
 
 export const BASE_URL = import.meta.env.VITE_APP_URL;
 
+class AssetNotFoundError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "AssetNotFoundError";
+  }
+}
+
+
 export async function createUpload(req: UploadRequest) : Promise<UploadResponse> {
     const res = await fetch('/api/assets/create', {
         method: 'POST',
@@ -26,6 +34,7 @@ export async function finalizeUpload(id: string) : Promise<InspectionsResponse> 
 
 export async function fetchAsset(id: string) : Promise<AssetResponse> {
     const res = await fetch(`/api/assets/${id}`);
+    if (res.status === 404) throw new AssetNotFoundError("Image not found");
     return await res.json();
 }
 

@@ -1,6 +1,7 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import {createRouter, createWebHistory} from 'vue-router'
 import StartView from '@/views/StartView.vue'
 import DetailView from '@/views/DetailView.vue'
+import NotFoundView from "@/views/NotFoundView.vue";
 
 const routes = [
   {
@@ -12,6 +13,15 @@ const routes = [
     path: '/detail/:id',
     name: 'detail',
     component: DetailView,
+  },
+  {
+    path: '/notfound',
+    name: 'notfound',
+    component: NotFoundView,
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    component: NotFoundView,
   },
 ]
 

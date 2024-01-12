@@ -49,6 +49,7 @@
 import {extendAsset, fetchAsset} from "@/api.ts";
 import {useRoute} from "vue-router";
 import {useAppStore} from "@/store/app.ts";
+import router from "@/router";
 import {reactive, ref} from "vue";
 import AssetFile from "@/types/AssetFile.ts";
 import MetadataWidget from "@/components/inspections/MetadataWidget.vue";
@@ -57,7 +58,7 @@ import PlaceWidget from "@/components/inspections/PlaceWidget.vue";
 import VisionWidget from "@/components/inspections/VisionWidget.vue";
 import PropertiesWidget from "@/components/inspections/PropertiesWidget.vue";
 
-const route = useRoute()
+const route = useRoute();
 const store = useAppStore();
 
 const uploading = ref(true);
@@ -95,16 +96,20 @@ async function extendLifetime() {
 async function waitForUpload() {
   setTimeout(() => uploadShowLoading.value = true, 300);
   await store.assetUpload;
-  const requestedAsset = await fetchAsset(route.params!.id as string);
-  // just for now? Hopefully?
-  asset.id = requestedAsset.id;
-  asset.name = requestedAsset.file_name;
-  asset.url = requestedAsset.url;
-  asset.is_extended = requestedAsset.is_extended;
-  asset.expires_at = requestedAsset.expires_at;
+  try {
+    const requestedAsset = await fetchAsset(route.params!.id as string);
 
-  document.title = `${asset.name} - Image Lookup`;
+    // just for now? Hopefully?
+    asset.id = requestedAsset.id;
+    asset.name = requestedAsset.file_name;
+    asset.url = requestedAsset.url;
+    asset.is_extended = requestedAsset.is_extended;
+    asset.expires_at = requestedAsset.expires_at;
 
+    document.title = `${asset.name} - Image Lookup`;
+  } catch {
+    await router.push({name: 'notfound'});
+  }
   uploading.value = false;
 }
 
