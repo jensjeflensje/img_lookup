@@ -2,6 +2,7 @@ import UploadResponse from "@/types/UploadResponse.ts";
 import UploadRequest from "@/types/UploadRequest.ts";
 import InspectionsResponse from "@/types/InspectionsResponse.ts";
 import AssetResponse from "@/types/AssetResponse.ts";
+import MarktplaatsResponse from "@/types/MarktplaatsResponse.ts";
 
 export const BASE_URL = import.meta.env.VITE_APP_URL;
 
@@ -53,4 +54,10 @@ export async function fetchInspection(id: string, inspectionType: string) : Prom
     return new Promise((resolve) => {
       setTimeout(async () => resolve(await fetchInspection(id, inspectionType)), 200);
     });
+}
+
+export async function fetchMarktplaatsInfo(url: string) : Promise<MarktplaatsResponse> {
+    const res = await fetch(`/api/marktplaats/fetch?url=${encodeURIComponent(url)}`);
+    if (res.status !== 200) throw new Error("Failed to fetch");
+    return await res.json();
 }

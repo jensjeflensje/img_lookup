@@ -7,4 +7,5 @@ urlpatterns = [
     path('assets/<uuid:id>/finalize', views.FinalizeAssetUploadEndpoint.as_view()),
     path('assets/<uuid:id>/extend', views.ExtendAssetLifetimeEndpoint.as_view()),
     path('assets/<uuid:id>/inspections/<str:inspection_type>', views.GetAssetInspectionEndpoint.as_view()),
+    path('marktplaats/fetch', views.FetchMarktplaatsEndpoint.as_view()),
 ]

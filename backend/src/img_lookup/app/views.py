@@ -1,3 +1,4 @@
+import requests
 from django.conf import settings
 from django.http import Http404
 from django_q.tasks import async_task
@@ -86,3 +87,36 @@ class GetAssetInspectionEndpoint(GenericAPIView):
         return Response(inspection.data)
 
 
+class FetchMarktplaatsEndpoint(GenericAPIView):
+    def get(self, request):
+        url = request.query_params.get('url')
+        ad_id = url.split('/')[-1].split('-')[0]
+
+        search_res = requests.get("https://www.marktplaats.nl/lrp/api/search", params={
+            "query": ad_id,
+            "limit": 1,
+        }).json()
+
+        listings = search_res['listings']
+        if len(listings) < 1:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        listing = listings[0]
+
+        location = listing['location']
+        lat = location.get('latitude')
+        lng = location.get('longitude')
+
+        zip_res = requests.get("http://api.positionstack.com/v1/reverse", params={
+            "access_key": settings.POSITIONSTACK_KEY,
+            "query": f"{lat},{lng}",
+            "limit": 1
+        }).json()['data'][0]
+
+        return Response({
+            "name": listing['title'],
+            "author": listing['sellerInformation']['sellerName'],
+            "latitude": lat,
+            "longitude": lng,
+            "zipCode": zip_res['postal_code'],
+        })
