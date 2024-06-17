@@ -1,7 +1,7 @@
 # Image Lookup
 A web tool to inspect images.
 It has metadata lookups, location data lookups, image hashes,
-OCR text recognition, landmark recognition and web search.
+OCR text recognition, landmark recognition, and web search.
 
 I host the site on https://butwhe.re,
 on which everyone can access it.
@@ -19,7 +19,7 @@ When it's done, it'll display it on the site.
 
 ## Asset lifetime
 By default, an asset will be in the system for 2 hours,
-after which, it'll be deleted completely (along with the inspection data).
+after which, it'll be deleted completely (alongside the inspection data).
 If you extend the lifetime of an asset, it'll be saved for 7 days.
 The extend feature makes it possible to share the link with others.
 
@@ -34,7 +34,7 @@ This way, I can scale running the inspections.
 I use PostgreSQL as a database, and Redis for Django Q.
 
 ## Services
-I'm using S3 to upload, store and serve the uploaded images.
-I use the PositionStack API to lookup a place from coordinates (place widget),
+I'm using S3 to upload, store, and serve the uploaded images.
+I use the PositionStack API to look up a place from coordinates (place widget),
 and Google Cloud Vision API to recognize text and landmarks.
 
